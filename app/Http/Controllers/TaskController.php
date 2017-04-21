@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 
 class TaskController extends Controller
 {
-    //
     public function __construct()
     {
     	$this->middleware('auth');
@@ -17,4 +16,10 @@ class TaskController extends Controller
     {
     	return view('tasks.index');
     }
+
+    public function store(Request $request)
+    {
+    	$this->validate($request, ['name' => 'required|max:255']);
+    }
+    //create the task.
 }
