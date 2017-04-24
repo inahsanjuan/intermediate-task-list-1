@@ -37,7 +37,7 @@
             <table class="table table-striped task-table">
                 <thead>
                     <th>Task</th>
-                    <th>$nbsp;</th>
+                    <th>&nbsp;</th>
                 </thead>
 
                 <tbody>
@@ -47,7 +47,14 @@
                                 <div> {{ $task->name}} </div>
                             </td>
                             <td>
-                                /* Delete Button */
+                                <form action ="{{ url ('task/'.$task->id) }}" method = "POST">
+                                    {{ csrf_field() }}
+                                    {{ method_field("DELETE") }}
+                                    <button type="submit" id="delete-task-{{ $task->id }}" class="btn btn-danger">
+                                        <i class="fa fa-btn fa-fa-trash"></i>Delete
+                                    </button>
+                                    
+                                </form>
                             </td>
                         </tr>
                     @endforeach
