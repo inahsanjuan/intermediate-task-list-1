@@ -13,9 +13,9 @@ class TaskController extends Controller
     protected $tasks;
 
     /* Creates a new controller instance. */
-    public function __construct()
+    public function __construct(TaskRepository $tasks)
     {
-    	$this->middleware('auth');
+        $this->middleware('auth');
 
         $this->tasks = $tasks;
     }
@@ -23,22 +23,26 @@ class TaskController extends Controller
     /* Displays a list of all the user tasks */
     public function index(Request $request)
     {
-    	$tasks = $request->user()->tasks()->get();
+        $tasks = $request->user()->tasks()->get();
 
         return view('tasks.index', [
-            'tasks' => $tasks->tasks->forUser($request->user()),
-            ]);
+            'tasks' => $this->tasks->forUser($request->user()), 
+        ]);
     }
 
     public function store(Request $request)
     {
-    	$this->validate($request, ['name' => 'required|max:255']);
+        $this->validate($request, ['name' => 'required|max:255']);
 
-        $request->user()->tasks()->create([
-            'name' => $request->name,
-        ]);
+        $request->user()->tasks()->create(['name' => $request->name, ]);
 
         return redirect('/tasks');
     }
-    //create the task.
+
+    public function destroy(Request $request, Task $task)
+    {
+        $this->authorize('destroy', $task);
+        $task->delete();
+        return redirect('/tasks');
+    }
 }
