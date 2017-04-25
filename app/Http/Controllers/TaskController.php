@@ -21,7 +21,16 @@ class TaskController extends Controller
     }
 
     /* Displays a list of all the user tasks */
-    public function index(Request $request)
+    public function view(Request $request)
+    {
+        $tasks = $request->user()->tasks()->get();
+
+        return view('tasks.view', [
+            'tasks' => $this->tasks->forUser($request->user()), 
+        ]);
+    }
+
+    public function create(Request $request)
     {
         $tasks = $request->user()->tasks()->get();
 
@@ -30,19 +39,22 @@ class TaskController extends Controller
         ]);
     }
 
+
+
     public function store(Request $request)
     {
         $this->validate($request, ['name' => 'required|max:255']);
 
         $request->user()->tasks()->create(['name' => $request->name, ]);
+         $request->session()->flash('alert-success', ' Task was successful added!');
 
-        return redirect('/tasks');
+        return redirect('/index');
     }
 
     public function destroy(Request $request, Task $task)
     {
         $this->authorize('destroy', $task);
         $task->delete();
-        return redirect('/tasks');
+        return redirect('/view');
     }
 }
