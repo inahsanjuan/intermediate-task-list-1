@@ -1,7 +1,7 @@
+
 @extends('layouts.app')
 
 @section('content')
-
 
     <div class ="panel-body">
 
@@ -26,41 +26,28 @@
                 </div>
             </div>
        </form>
+      
+            
+       @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+           @if(Session::has('alert-' . $msg))
+               <div class="container">
+                   <div class="row">
+                       <div class ="col-md-offset-3 col-md-6">
+                           <div class="alert alert-success" id = "this" >
+                               <p class="alert alert-{{ $msg }}" id ="this2">{{ Session::get('alert-' . $msg) }}</p>
+                           </div>
+                       </div>
+                   </div>
+                </div>
+     <!--  <script>
+      $(document).ready(function(){
+                    setTimeout(function() {
+            $('#this2').fadeOut('fast');
+            }, 2000);
+        });
+        </script> -->
+          @endif
+        @endforeach        
     </div>
     <!-- TODO: Current Tasks -->
-    @if (count($tasks) >0)
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Current Tasks
-            </div>
-        <div class="panel-body">
-            <table class="table table-striped task-table">
-                <thead>
-                    <th>Task</th>
-                    <th>&nbsp;</th>
-                </thead>
-
-                <tbody>
-                    @foreach ($tasks as $task)
-                        <tr>
-                            <td class="table-text">
-                                <div> {{ $task->name}} </div>
-                            </td>
-                            <td>
-                                <form action ="{{ url ('task/'.$task->id) }}" method = "POST">
-                                    {{ csrf_field() }}
-                                    {{ method_field("DELETE") }}
-                                    <button type="submit" id="delete-task-{{ $task->id }}" class="btn btn-danger">
-                                        <i class="fa fa-btn fa-fa-trash"></i>Delete
-                                    </button>
-                                    
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-    @endif
 @endsection
