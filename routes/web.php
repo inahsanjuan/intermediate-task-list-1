@@ -27,4 +27,10 @@ Route::post('/task', 'TaskController@store');
 
 Route::delete('/view/{task}', 'TaskController@destroy');
 
+Route::put('/view/{task}', 'TaskController@upstatus');
+
+Route::get('/edit/{task}', 'TaskController@editPage');
+
+Route::patch('/view/{task}', 'TaskController@updateTask');
+
 //Route::get('/view', 'TaskController@index2  ');
