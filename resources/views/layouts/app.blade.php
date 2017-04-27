@@ -36,7 +36,8 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        <!-- {{ config('app.name', 'LARAVEL') }} -->
+                        <?php echo"CHoYA"; ?>
                     </a>
                    
                 </div>
@@ -89,9 +90,9 @@
                 </div>
             </div>
         </nav>
-
-        @yield('content')
     </div>
+        @yield('content')
+    
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
